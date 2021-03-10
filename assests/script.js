@@ -9,38 +9,55 @@
 // THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, and the humidity
 // WHEN I click on a city in the search history
 // THEN I am again presented with current and future conditions for that city
-var api_key ="16d3b60db4cf8bb617eb4d8b62e0b4f1";
-var city= "";
-var currentWeatherUrl="api.openweathermap.org/data/2.5/weather?q={city name},{state code}&appid={api_key}"
-fetch(currentWeatherUrl)
-    .then((data)=>data.json())
-    .then(function (weather){
-        console.log(weather);
-    var lat = weather.coord.lat;
-    var lon = weather.coord.lon;
-    var onecallURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${api_key}`;
-    fetch(onecallURL)
-      .then((data) => data.json())
-      .then(function (oneCallData) {
-        //   oneCallData has all the information that we need
-        console.log(oneCallData);
-      });
-    })
-var forecastWeatherUrl="api.openweathermap.org/data/2.5/forecast?q={city name},{state code}&appid={API_key}"
-function getWeather(city){
-
+//get api to get into server
+const api_key = "16d3b60db4cf8bb617eb4d8b62e0b4f1";
+const submitBtn = document.querySelector(".submit-form");
+//create function for when submit button clicked
+function submitForm(event){
+  //prevents page refresh
+  event.preventDefault();
+  //creates variable for city inputted in form
+  const cityInput = document.querySelector("#input-city").value;
+  //logs city submitted
+  console.log(cityInput);
+  //saves key value pair "city",cityinput to local storage
+  localStorage.setItem("City",cityInput);
 }
-fetch(currentWeatherUrl)
-  .then((data) => data.json())
-  .then(function (weather) {
-    console.log(weather);
-    var lat = weather.coord.lat;
-    var lon = weather.coord.lon;
-    var onecallURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${api_key}`;
-    fetch(onecallURL)
-      .then((data) => data.json())
-      .then(function (oneCallData) {
-        //   oneCallData has all the information that we need
-        console.log(oneCallData);
-      });
-  });
+//creates listener for when submitBtn submitted, executes function
+submitBtn.addEventListener("submit",submitForm);
+
+//takes in city name and retrieves weather data for city
+//practice
+getWeather(cityInput);
+function getWeather(cityInput){
+  //takes in city above and returns current weather using api key
+  var currentWeatherUrl= `http://api.openweathermap.org/data/2.5/weather?q=${cityInput}&appid=${api_key}`;
+  //logs info that we get from api 
+  console.log(currentWeatherUrl);
+  //send fetch request to get lat n long
+  fetch(currentWeatherUrl)
+      //grabs datas turns into Json
+      .then((data)=>data.json())
+      .then(function (weather){
+        //gives us data on 
+          console.log(weather);
+        if(weather.cod==="404"){
+          //gives alert if error 404 code
+          alert("city not found");
+          return;
+        }
+        //acess lat n long  from returned data
+      var lat = weather.coord.lat;
+      var lon = weather.coord.lon;
+      //sends api with our lat and long var for our city
+      var onecallURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${api_key}&units=imperial`;
+      fetch(onecallURL)
+        .then((data) => data.json())
+        .then(function (oneCallData) {
+          //   oneCallData has all the information that we need
+          console.log(oneCallData);
+        });
+      })
+}
+
+
