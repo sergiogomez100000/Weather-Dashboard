@@ -21,11 +21,24 @@ function submitForm(event){
   //logs city submitted
   console.log(cityInput);
   //saves key value pair "city",cityinput to local storage
-  localStorage.setItem("City",cityInput);
+  localStorage.setItem("Cities",cityInput);
   getWeather(cityInput);
+
+
+
+  
 }
 //creates listener for when submitBtn submitted, executes function
 submitBtn.addEventListener("submit",submitForm);
+
+function renderButtons(){
+  var button = document.createElement("button");
+  button = 
+  
+
+}
+
+//var citySearchInput= localStorage.getItem("")
 
 // creates funstion to get weather using cityInput as parameter
 function getWeather(cityInput){
