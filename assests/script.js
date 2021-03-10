@@ -22,13 +22,12 @@ function submitForm(event){
   console.log(cityInput);
   //saves key value pair "city",cityinput to local storage
   localStorage.setItem("City",cityInput);
+  getWeather(cityInput);
 }
 //creates listener for when submitBtn submitted, executes function
 submitBtn.addEventListener("submit",submitForm);
 
-//takes in city name and retrieves weather data for city
-//practice
-getWeather(cityInput);
+// creates funstion to get weather using cityInput as parameter
 function getWeather(cityInput){
   //takes in city above and returns current weather using api key
   var currentWeatherUrl= `http://api.openweathermap.org/data/2.5/weather?q=${cityInput}&appid=${api_key}`;
