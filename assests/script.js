@@ -16,7 +16,7 @@ const submitBtn = document.querySelector(".submit-form");
 // creates variable to sets value to key from local storage
 var cityInput = localStorage.getItem("Cities");
 //if there is a value for cities
-
+var cityHistory=[]
 //function to create cityBtns
 function createCityBtns(){
   //for each cityInput run function with cityInput parameter
@@ -26,7 +26,7 @@ function createCityBtns(){
     // hav text content of cityBtn be the cityInput
     cityBtn.textContent = cityInput
     // create variable to append cityBtn to search-history class
-     var searchHitsory= $(".search-history").append(btn)
+     cityHistory.push(cityInput)
 
   })
 }
@@ -53,8 +53,6 @@ submitBtn.addEventListener("submit",submitForm);
 function getWeather(cityInput){
   //takes in city above and returns current weather using api key
   var currentWeatherUrl= `http://api.openweathermap.org/data/2.5/weather?q=${cityInput}&appid=${api_key}`;
-  //logs info that we get from api 
-  console.log(currentWeatherUrl);
   //send fetch request to get lat n long
   fetch(currentWeatherUrl)
       //grabs datas turns into Json
@@ -62,11 +60,16 @@ function getWeather(cityInput){
       .then(function (weather){
         //gives us data on 
           console.log(weather);
+          //try and retrieve name from weather
+
         if(weather.cod==="404"){
           //gives alert if error 404 code
           alert("city not found");
           return;
         }
+        // logs the name from weather
+        console.log(weather.name)
+        var name = (weather.name)
         //acess lat n long  from returned data
       var lat = weather.coord.lat;
       var lon = weather.coord.lon;
@@ -74,10 +77,34 @@ function getWeather(cityInput){
       var onecallURL = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${api_key}&units=imperial`;
       fetch(onecallURL)
         .then((data) => data.json())
-        .then(function (oneCallData) {
-          currentUVEl.innerhtml = ""
+        .then(function (onecallURL){
           //   oneCallData has all the information that we need
-          console.log(oneCallData);
+          console.log(onecallURL);
+          // logs url info,looks into "current" array
+          console.log(onecallURL.current)
+          //create variable for humidity including string and humidity info in current from onecall url
+          var humidity = ["Humidity: " + (onecallURL.current.humidity)]
+          //creates variable for temp including string and temp info in "current" array from onecallurl
+          var temp = ["Temp: " + (onecallURL.current.temp)]
+          //console.log(temp)
+          //creates variable for UVI including string and UVI info in "current" array from onecallurl
+          var uvIndex = ["UV Index: " + (onecallURL.current.uvi)]
+          //creates variable for WindSPeed including string and WS info in "current" array from onecallurl
+          var windSpeed = ["Wind Speed: " + (onecallURL.current.wind_speed)]
+          //creates variable for WC including string and WC info in "current" array from onecallurl
+          var weatherCond = ["Weather Conditions: " + (onecallURL.current.weather[0].main)]
+          // creates variable for element with class current -weather
+          var currentWeather = document.querySelector(".current-weather");
+        
+          // creates array of weather info variables
+          currentWeatherInfo= [name  , humidity , temp , uvIndex , windSpeed , weatherCond];
+          // appends weather info array to current weather html element
+          currentWeather.append(currentWeatherInfo)
+          //console.log(currentWeather);
+          
+          
+          
+
           
         });
       })
