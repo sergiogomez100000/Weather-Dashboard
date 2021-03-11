@@ -11,7 +11,25 @@
 // THEN I am again presented with current and future conditions for that city
 //get api to get into server
 const api_key = "16d3b60db4cf8bb617eb4d8b62e0b4f1";
+// creates var for submit form
 const submitBtn = document.querySelector(".submit-form");
+// creates variable to sets value to key from local storage
+var cityInput = localStorage.getItem("Cities");
+//if there is a value for cities
+
+//function to create cityBtns
+function createCityBtns(){
+  //for each cityInput run function with cityInput parameter
+  cityInput.forEach(function(cityInput){
+    //create variable to create button
+    var cityBtn= document.createElement("button");
+    // hav text content of cityBtn be the cityInput
+    cityBtn.textContent = cityInput
+    // create variable to append cityBtn to search-history class
+     var searchHitsory= $(".search-history").append(btn)
+
+  })
+}
 //create function for when submit button clicked
 function submitForm(event){
   //prevents page refresh
@@ -30,15 +48,6 @@ function submitForm(event){
 }
 //creates listener for when submitBtn submitted, executes function
 submitBtn.addEventListener("submit",submitForm);
-
-function renderButtons(){
-  var button = document.createElement("button");
-  button = 
-  
-
-}
-
-//var citySearchInput= localStorage.getItem("")
 
 // creates funstion to get weather using cityInput as parameter
 function getWeather(cityInput){
@@ -66,8 +75,10 @@ function getWeather(cityInput){
       fetch(onecallURL)
         .then((data) => data.json())
         .then(function (oneCallData) {
+          currentUVEl.innerhtml = ""
           //   oneCallData has all the information that we need
           console.log(oneCallData);
+          
         });
       })
 }
