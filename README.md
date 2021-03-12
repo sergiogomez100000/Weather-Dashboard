@@ -1,4 +1,5 @@
 # Weather-Dashboard
+My application is a Weather Dashboard, with any city you search! You can see all the info you need for the day and the next 5! Getting the city name, date of today, temperature, wind speed, the weather conditions, humidity. It also shows a 5-day forecast with all the info you can want!
 
 ## Acceptance Criteria
 GIVEN a weather dashboard with form inputs
@@ -13,4 +14,7 @@ THEN I am presented with a 5-day forecast that displays the date, an icon repres
 WHEN I click on a city in the search history
 THEN I am again presented with current and future conditions for that city
 ## Links
-used the APi from(https://openweathermap.org/api)
+used the APi from(https://openweathermap.org/api) and my repository link is (https://github.com/sergiogomez100000/Weather-Dashboard). My deployed application is (https://sergiogomez100000.github.io/Weather-Dashboard/).
+
+## Screenshot
+<img src="assests\images\Screenshot (46).png">
