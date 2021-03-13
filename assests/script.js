@@ -58,7 +58,7 @@ submitBtn.addEventListener("submit", submitForm);
 // creates funstion to get weather using cityInput as parameter
 function getWeather(cityInput) {
   //takes in city above and returns current weather using api key
-  var currentWeatherUrl = `http://api.openweathermap.org/data/2.5/weather?q=${cityInput}&appid=${api_key}`;
+  var currentWeatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityInput}&appid=${api_key}`;
   //send fetch request to get lat n long
   fetch(currentWeatherUrl)
     //grabs datas turns into Json that we can parse thru
