@@ -144,43 +144,50 @@ function getWeather(cityInput) {
 
 function getFiveDay(cityInput) {
   var fiveDayUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cityInput}&appid=${api_key}&units=imperial`;
-
-  fetch(fiveDayUrl)
-        //converts data from onecall to .json
+fetch(fiveDayUrl)
+        //converts data from fiveDayUrl to .json
         .then((data) => data.json())
         .then(function (fiveDayUrl) {
-          for(var i = 4; i<array.length;i=i+8){
-          
-          // create p element for var, sets innertext of var to data, append var to container
-          let forecastDate =  document.createElement("p")
+          console.log(fiveDayUrl)
+
+          for (var i = 4; i<fiveDayUrl.length;i=i+8){
+            var forecastCard = document.createElement("div");
+            forecastCard.classList.add("forecast");
+            forecastCard.innerHTML = "";
+          // create h3 element for var, sets innertext of var to data, append var to container
+          let forecastDate =  document.createElement("h3")
           forecastDate.innerText= "Date: " + fiveDayUrl.list[i].dt_txt.slice(0, 10);
-          //forecastContainer.append(forecastDate);
+          forecastCard.append(forecastDate);
 
           let forecastHumidity = document.createElement("p");
           forecastHumidity.innerText= "Humidity: " + fiveDayUrl.list[i].main.humidity + "%";
-          //forecastContainer.append(forecastHumidity);
+          forecastCard.append(forecastHumidity);
 
           let forecastTemp = document.createElement("p")
           forecastTemp.innerText = fiveDayUrl.list[i].main.temp + " Degrees"
-          //forecastContainer.append(forecastTemp)
+          forecastCard.append(forecastTemp)
 
           let foreccastIcon =  document.createElement("img")
           foreccastIcon.setAttribute("src", `http://openweathermap.org/img/wn/${fiveDayUrl.list[i].weather[i].icon}@2x.png` )
-          //forecastContainer.append(forecastIcon)
+          forecastCard.append(forecastIcon)
+          forecastContainer.append(forecastCard)
 
+          }
+          ///creates container
+          
+          
 
-
-          console.log(fiveDayUrl.list[0].dt_txt)// date
-          console.log(fiveDayUrl.list[0].main.humidity)//humidity
-          console.log(fiveDayUrl.list[0].main.temp)// temp
-          console.log(fiveDayUrl.list[0].weather[0].icon)//icon
-
-          }  })
+         // console.log(fiveDayUrl.list[0].dt_txt)// date
+         // console.log(fiveDayUrl.list[0].main.humidity)//humidity
+          //console.log(fiveDayUrl.list[0].main.temp)// temp
+          //console.log(fiveDayUrl.list[0].weather[0].icon)//icon
+        
+    })
 }
  
   //make function, make fetch with 5day api, .json data
 
-          // for (var i = 4; i<array.length;i=i+8){
+          // 
           //create var and create p tag with it for all data needed
           //}
           //look to project 
