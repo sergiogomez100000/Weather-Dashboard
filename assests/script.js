@@ -15,6 +15,8 @@ const api_key = "16d3b60db4cf8bb617eb4d8b62e0b4f1";
 const submitBtn = document.querySelector(".submit-form");
 // creates variable to sets value to key from local storage
 var searchHistory = localStorage.getItem("Cities");
+// creates variable for forecast container
+const forecastContainer = document.getElementsByClassName(".forecast");
 // if search history has a string then it would be tru
 if (searchHistory) {
   //search history turns strin into array
@@ -30,6 +32,8 @@ createCityBtns();
 //function to create cityBtns
 function createCityBtns() {
   var btncontainer = document.querySelector(".search-history");
+  btncontainer.innerHTML = ""
+  
   //for each cityInput run function with cityInput parameter
   searchHistory.forEach(function (cityInput) {
     //create variable to create button
@@ -44,13 +48,17 @@ function createCityBtns() {
 function submitForm(event) {
   //prevents page refresh
   event.preventDefault();
-  //creates variable for city inputted in form
   const cityInput = document.querySelector("#input-city").value;
+  getWeather(cityInput);
+  if (searchHistory.includes(cityInput)){return}
+  //creates variable for city inputted in form
+ 
   //logs city submitted
   searchHistory.push(cityInput);
   //saves key value pair "city",searchhistory array turns into string with JSON.stringify to local storage
   localStorage.setItem("Cities", JSON.stringify(searchHistory));
-  getWeather(cityInput);
+  createCityBtns()
+  getFiveDay(cityInput);
 }
 //creates listener for when submitBtn submitted, executes function
 submitBtn.addEventListener("submit", submitForm);
@@ -87,7 +95,6 @@ function getWeather(cityInput) {
         //converts data from onecall to .json
         .then((data) => data.json())
         .then(function (onecallURL) {
-
           var todayCard = document.createElement("div");
           todayCard.classList.add("current-weather");
           //todayCard.innerHTML= name
@@ -98,21 +105,21 @@ function getWeather(cityInput) {
           // logs url info,looks into "current" array for todays forcast
           //console.log(onecallURL.current)
           //create variable for humidity including string and humidity info in current from onecall url
-          var humidity = ["Humidity: " + onecallURL.current.humidity + "%"];
+          var humidity = "Humidity: " + onecallURL.current.humidity + "%";
           //creates variable for temp including string and temp info in "current" array from onecallurl
-          var temp = ["Temp: " + onecallURL.current.temp + "Degrees"];
+          var temp = "Temp: " + onecallURL.current.temp + "Degrees";
           //console.log(temp)
           //creates variable for UVI including string and UVI info in "current" array from onecallurl
-          var uvIndex = ["UV Index: " + onecallURL.current.uvi];
+          var uvIndex = "UV Index: " + onecallURL.current.uvi;
           //creates variable for WindSPeed including string and WS info in "current" array from onecallurl
-          var windSpeed = ["Wind Speed: " + onecallURL.current.wind_speed +"MPH"];
+          var windSpeed =
+            "Wind Speed: " + onecallURL.current.wind_speed + "MPH";
           //creates variable for WC including string and WC info in "current" array from onecallurl
-          var weatherCond = [
-            "Weather Conditions: " + onecallURL.current.weather[0].main,
-          ];
+          var weatherCond =
+            "Weather Conditions: " + onecallURL.current.weather[0].main;
           // creates variable for element with class current -weather
           var currentWeather = document.querySelector(".current-weather");
-          
+
           //clear innerhtml of currentweatheerInfo hopefully
           //currentWeatherInfo= "";
           // creates array of weather info variables
@@ -124,10 +131,74 @@ function getWeather(cityInput) {
             windSpeed,
             weatherCond,
           ];
+          currentWeather.innerHTML = ""
+          //for each element in array,append to curretn weather
+          for (let i = 0; i < currentWeatherInfo.length; i++) {
+            var ptag = document.createElement("p");
+            ptag.textContent = currentWeatherInfo[i]
+            currentWeather.append(ptag)
+          }
+        });
+    });
+}
+
+function getFiveDay(cityInput) {
+  var fiveDayUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cityInput}&appid=${api_key}&units=imperial`;
+
+  fetch(fiveDayUrl)
+        //converts data from onecall to .json
+        .then((data) => data.json())
+        .then(function (fiveDayUrl) {
+          
+          // create p element for var, sets innertext of var to data, append var to container
+          let forecastDate =  document.createElement("p")
+          forecastDate.innerText= "Date: " + fiveDayUrl.list[0].dt_txt.slice(0, 10);
+          //forecastContainer.append(forecastDate);
+
+          let forecastHumidity = document.createElement("p");
+          forecastHumidity.innerText= "Humidity: " + fiveDayUrl.list[0].main.humidity + "%";
+          //forecastContainer.append(forecastHumidity);
+
+          let forecastTemp = document.createElement("p")
+          forecastTemp.innerText = fiveDayUrl.list[0].main.temp + " Degrees"
+          //forecastContainer.append(forecastTemp)
+
+          let foreccastIcon =  document.createElement("img")
+          foreccastIcon.setAttribute("src", `http://openweathermap.org/img/wn/${fiveDayUrl.list[0].weather[0].icon}@2x.png` )
+          //forecastContainer.append(forecastIcon)
+
+
+
+          console.log(fiveDayUrl.list[0].dt_txt)// date
+          console.log(fiveDayUrl.list[0].main.humidity)//humidity
+          console.log(fiveDayUrl.list[0].main.temp)// temp
+          console.log(fiveDayUrl.list[0].weather[0].icon)//icon
+
+        })
+}
+ 
+  //make function, make fetch with 5day api, .json data
+
+          // for (var i = 4; i<array.length;i=i+8){
+          //create var and create p tag with it for all data needed
+          //}
+          //look to project 
+
+
+         //  for (let i=0; i <5, i++;){
+          //   var date = ["Date: " + (onecallURL.daily[i].dt)]
+          //   var icon = [onecallURL.daily[i].weather[i].icon]
+          //   var temp = ["Temp: " + (onecallURL.daily[i].temp.day)]
+          //   var humidity = ["Humidity: " + (onecallURL.daily[i].humidity)]
+          //   var fiveDAy = [date, icon, temp, humidity]
+          //   var forecast = document.querySelector("#forecast")
+          //   forecast.append(fiveDay)
+          //   }//    //create variables for each info
+          
           // appends weather info array to current weather html element
-          currentWeather.append(currentWeatherInfo);
+          //currentWeather.append(currentWeatherInfo);
           //looking for 5 day forecast info, looking into onecallUrl daily data
-          console.log(onecallURL);
+        
           //date
           //console.log(onecallURL.daily[0].dt)
           //icon
@@ -139,17 +210,4 @@ function getWeather(cityInput) {
           // console.log(onecallURL.daily[0].humitidity)
 
           //create for loop to go through each day
-          //  for (let i=0; i <5, i++;){
-          //    //create variables for each info
-          //   var date = ["Date: " + (onecallURL.daily[i].dt)]
-          //   var icon = [onecallURL.daily[i].weather[i].icon]
-          //   var temp = ["Temp: " + (onecallURL.daily[i].temp.day)]
-          //   var humidity = ["Humidity: " + (onecallURL.daily[i].humidity)]
-          //   var fiveDAy = [date, icon, temp, humidity]
-          //   var forecast = document.querySelector("#forecast")
-          //   forecast.append(fiveDay)
-          //   }
-        });
-    });
-}
-
+        
