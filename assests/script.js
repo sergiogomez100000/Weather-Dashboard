@@ -16,7 +16,8 @@ const submitBtn = document.querySelector(".submit-form");
 // creates variable to sets value to key from local storage
 var searchHistory = localStorage.getItem("Cities");
 // creates variable for forecast container
-const forecastContainer = document.getElementsByClassName(".forecast");
+const forecastContainer = document.querySelector(".forecast");
+console.log(forecastContainer)
 // if search history has a string then it would be tru
 if (searchHistory) {
   //search history turns strin into array
@@ -50,6 +51,7 @@ function submitForm(event) {
   event.preventDefault();
   const cityInput = document.querySelector("#input-city").value;
   getWeather(cityInput);
+  getFiveDay(cityInput);
   if (searchHistory.includes(cityInput)) {
     return;
   }
@@ -60,7 +62,7 @@ function submitForm(event) {
   //saves key value pair "city",searchhistory array turns into string with JSON.stringify to local storage
   localStorage.setItem("Cities", JSON.stringify(searchHistory));
   createCityBtns();
-  getFiveDay(cityInput);
+  ;
 }
 //creates listener for when submitBtn submitted, executes function
 submitBtn.addEventListener("submit", submitForm);
@@ -151,35 +153,36 @@ function getFiveDay(cityInput) {
     .then((data) => data.json())
     .then(function (fiveDayUrl) {
       console.log(fiveDayUrl);
+      forecastContainer.innerHTML = "";
 
       for (var i = 4; i < fiveDayUrl.list.length; i = i + 8) {
-        //var forecastCard = document.createElement("div");
+        var forecastCard = document.createElement("div");
         //forecastCard.classList.add("forecast");
-        forecastContainer.innerHTML = "";
-        // create h3 element for var, sets innertext of var to data, append var to container
+        
+
+        // create  element for var, sets innertext of var to data, append var to container
         let forecastDate = document.createElement("h3");
         forecastDate.innerText =
           "Date: " + fiveDayUrl.list[i].dt_txt.slice(0, 10);
-        forecastContainer.append(forecastDate);
+        forecastCard.append(forecastDate);
 
         let forecastHumidity = document.createElement("p");
         forecastHumidity.innerText =
           "Humidity: " + fiveDayUrl.list[i].main.humidity + "%";
-        forecastContainer.append(forecastHumidity);
+        forecastCard.append(forecastHumidity);
 
         let forecastTemp = document.createElement("p");
         forecastTemp.innerText = fiveDayUrl.list[i].main.temp + " Degrees";
-        forecastContainer.append(forecastTemp);
+        forecastCard.append(forecastTemp);
 
-        let foreccastIcon = document.createElement("img");
-        foreccastIcon.setAttribute(
+        let forecastIcon = document.createElement("img");
+        forecastIcon.setAttribute(
           "src",
-          `https://openweathermap.org/img/wn/${fiveDayUrl.list[i].weather[i].icon}@2x.png`
+          `https://openweathermap.org/img/wn/${fiveDayUrl.list[i].weather[0].icon}@2x.png`
         );
         forecastCard.append(forecastIcon);
         forecastContainer.append(forecastCard);
       }
-      ///creates container
 
       // console.log(fiveDayUrl.list[0].dt_txt)// date
       // console.log(fiveDayUrl.list[0].main.humidity)//humidity
