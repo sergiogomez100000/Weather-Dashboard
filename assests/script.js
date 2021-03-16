@@ -32,8 +32,8 @@ createCityBtns();
 //function to create cityBtns
 function createCityBtns() {
   var btncontainer = document.querySelector(".search-history");
-  btncontainer.innerHTML = ""
-  
+  btncontainer.innerHTML = "";
+
   //for each cityInput run function with cityInput parameter
   searchHistory.forEach(function (cityInput) {
     //create variable to create button
@@ -50,14 +50,16 @@ function submitForm(event) {
   event.preventDefault();
   const cityInput = document.querySelector("#input-city").value;
   getWeather(cityInput);
-  if (searchHistory.includes(cityInput)){return}
+  if (searchHistory.includes(cityInput)) {
+    return;
+  }
   //creates variable for city inputted in form
- 
+
   //logs city submitted
   searchHistory.push(cityInput);
   //saves key value pair "city",searchhistory array turns into string with JSON.stringify to local storage
   localStorage.setItem("Cities", JSON.stringify(searchHistory));
-  createCityBtns()
+  createCityBtns();
   getFiveDay(cityInput);
 }
 //creates listener for when submitBtn submitted, executes function
@@ -131,12 +133,12 @@ function getWeather(cityInput) {
             windSpeed,
             weatherCond,
           ];
-          currentWeather.innerHTML = ""
+          currentWeather.innerHTML = "";
           //for each element in array,append to curretn weather
           for (let i = 0; i < currentWeatherInfo.length; i++) {
             var ptag = document.createElement("p");
-            ptag.textContent = currentWeatherInfo[i]
-            currentWeather.append(ptag)
+            ptag.textContent = currentWeatherInfo[i];
+            currentWeather.append(ptag);
           }
         });
     });
@@ -144,78 +146,77 @@ function getWeather(cityInput) {
 
 function getFiveDay(cityInput) {
   var fiveDayUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cityInput}&appid=${api_key}&units=imperial`;
-fetch(fiveDayUrl)
-        //converts data from fiveDayUrl to .json
-        .then((data) => data.json())
-        .then(function (fiveDayUrl) {
-          console.log(fiveDayUrl)
+  fetch(fiveDayUrl)
+    //converts data from fiveDayUrl to .json
+    .then((data) => data.json())
+    .then(function (fiveDayUrl) {
+      console.log(fiveDayUrl);
 
-          for (var i = 4; i<fiveDayUrl.length;i=i+8){
-            var forecastCard = document.createElement("div");
-            forecastCard.classList.add("forecast");
-            forecastCard.innerHTML = "";
-          // create h3 element for var, sets innertext of var to data, append var to container
-          let forecastDate =  document.createElement("h3")
-          forecastDate.innerText= "Date: " + fiveDayUrl.list[i].dt_txt.slice(0, 10);
-          forecastCard.append(forecastDate);
+      for (var i = 4; i < fiveDayUrl.list.length; i = i + 8) {
+        //var forecastCard = document.createElement("div");
+        //forecastCard.classList.add("forecast");
+        forecastContainer.innerHTML = "";
+        // create h3 element for var, sets innertext of var to data, append var to container
+        let forecastDate = document.createElement("h3");
+        forecastDate.innerText =
+          "Date: " + fiveDayUrl.list[i].dt_txt.slice(0, 10);
+        forecastContainer.append(forecastDate);
 
-          let forecastHumidity = document.createElement("p");
-          forecastHumidity.innerText= "Humidity: " + fiveDayUrl.list[i].main.humidity + "%";
-          forecastCard.append(forecastHumidity);
+        let forecastHumidity = document.createElement("p");
+        forecastHumidity.innerText =
+          "Humidity: " + fiveDayUrl.list[i].main.humidity + "%";
+        forecastContainer.append(forecastHumidity);
 
-          let forecastTemp = document.createElement("p")
-          forecastTemp.innerText = fiveDayUrl.list[i].main.temp + " Degrees"
-          forecastCard.append(forecastTemp)
+        let forecastTemp = document.createElement("p");
+        forecastTemp.innerText = fiveDayUrl.list[i].main.temp + " Degrees";
+        forecastContainer.append(forecastTemp);
 
-          let foreccastIcon =  document.createElement("img")
-          foreccastIcon.setAttribute("src", `http://openweathermap.org/img/wn/${fiveDayUrl.list[i].weather[i].icon}@2x.png` )
-          forecastCard.append(forecastIcon)
-          forecastContainer.append(forecastCard)
+        let foreccastIcon = document.createElement("img");
+        foreccastIcon.setAttribute(
+          "src",
+          `https://openweathermap.org/img/wn/${fiveDayUrl.list[i].weather[i].icon}@2x.png`
+        );
+        forecastCard.append(forecastIcon);
+        forecastContainer.append(forecastCard);
+      }
+      ///creates container
 
-          }
-          ///creates container
-          
-          
-
-         // console.log(fiveDayUrl.list[0].dt_txt)// date
-         // console.log(fiveDayUrl.list[0].main.humidity)//humidity
-          //console.log(fiveDayUrl.list[0].main.temp)// temp
-          //console.log(fiveDayUrl.list[0].weather[0].icon)//icon
-        
-    })
+      // console.log(fiveDayUrl.list[0].dt_txt)// date
+      // console.log(fiveDayUrl.list[0].main.humidity)//humidity
+      //console.log(fiveDayUrl.list[0].main.temp)// temp
+      //console.log(fiveDayUrl.list[0].weather[0].icon)//icon
+    });
 }
- 
-  //make function, make fetch with 5day api, .json data
 
-          // 
-          //create var and create p tag with it for all data needed
-          //}
-          //look to project 
+//make function, make fetch with 5day api, .json data
 
+//
+//create var and create p tag with it for all data needed
+//}
+//look to project
 
-         //  for (let i=0; i <5, i++;){
-          //   var date = ["Date: " + (onecallURL.daily[i].dt)]
-          //   var icon = [onecallURL.daily[i].weather[i].icon]
-          //   var temp = ["Temp: " + (onecallURL.daily[i].temp.day)]
-          //   var humidity = ["Humidity: " + (onecallURL.daily[i].humidity)]
-          //   var fiveDAy = [date, icon, temp, humidity]
-          //   var forecast = document.querySelector("#forecast")
-          //   forecast.append(fiveDay)
-          //   }//    //create variables for each info
-          
-          // appends weather info array to current weather html element
-          //currentWeather.append(currentWeatherInfo);
-          //looking for 5 day forecast info, looking into onecallUrl daily data
-        
-          //date
-          //console.log(onecallURL.daily[0].dt)
-          //icon
-          //console.log(onecallURL.daily[0].weather[0].icon)
-          //temp
-          //console.log(onecallURL.daily[0].temp.day)
+//  for (let i=0; i <5, i++;){
+//   var date = ["Date: " + (onecallURL.daily[i].dt)]
+//   var icon = [onecallURL.daily[i].weather[i].icon]
+//   var temp = ["Temp: " + (onecallURL.daily[i].temp.day)]
+//   var humidity = ["Humidity: " + (onecallURL.daily[i].humidity)]
+//   var fiveDAy = [date, icon, temp, humidity]
+//   var forecast = document.querySelector("#forecast")
+//   forecast.append(fiveDay)
+//   }//    //create variables for each info
 
-          //humidity
-          // console.log(onecallURL.daily[0].humitidity)
+// appends weather info array to current weather html element
+//currentWeather.append(currentWeatherInfo);
+//looking for 5 day forecast info, looking into onecallUrl daily data
 
-          //create for loop to go through each day
-        
+//date
+//console.log(onecallURL.daily[0].dt)
+//icon
+//console.log(onecallURL.daily[0].weather[0].icon)
+//temp
+//console.log(onecallURL.daily[0].temp.day)
+
+//humidity
+// console.log(onecallURL.daily[0].humitidity)
+
+//create for loop to go through each day
