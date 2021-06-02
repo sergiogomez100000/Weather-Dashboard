@@ -105,7 +105,7 @@ function getWeather(cityInput) {
           //creates variable for name of city
           var name = document.createElement("h3");
           name.textContent =
-            weather.name + " (" + date + "/" + month + "/" + year + ")";
+            weather.name + " (" + month + "/" + date + "/" + year + ")";
           currentWeather.append(name);
           var imgEl = document.createElement("img")
           imgEl.setAttribute("src",`http://openweathermap.org/img/w/${onecallURL.current.weather[0].icon}.png`)
@@ -153,8 +153,11 @@ function getFiveDay(cityInput) {
 
         // create  element for var, sets innertext of var to data, append var to container
         let forecastDate = document.createElement("h3");
-        forecastDate.innerText =
-        fiveDayUrl.list[i].dt_txt.slice(0, 10);
+        var date =fiveDayUrl.list[i].dt_txt.slice(9, 10);
+        var month = fiveDayUrl.list[i].dt_txt.slice(6, 7);
+        var year = fiveDayUrl.list[i].dt_txt.slice(0,4);
+        forecastDate.innerText = month + "/" + date + "/" + year
+        // fiveDayUrl.list[i].dt_txt.slice(0, 10);
         forecastCard.append(forecastDate);
 
         let forecastIcon = document.createElement("img");
