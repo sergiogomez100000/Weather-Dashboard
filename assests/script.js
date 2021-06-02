@@ -17,7 +17,7 @@ const submitBtn = document.querySelector(".submit-form");
 var searchHistory = localStorage.getItem("Cities");
 // creates variable for forecast container
 const forecastContainer = document.querySelector(".forecast");
-console.log(forecastContainer)
+// console.log(forecastContainer);
 // if search history has a string then it would be tru
 if (searchHistory) {
   //search history turns strin into array
@@ -62,12 +62,11 @@ function submitForm(event) {
   //saves key value pair "city",searchhistory array turns into string with JSON.stringify to local storage
   localStorage.setItem("Cities", JSON.stringify(searchHistory));
   createCityBtns();
-  ;
 }
 //creates listener for when submitBtn submitted, executes function
 submitBtn.addEventListener("submit", submitForm);
 
-// creates funstion to get weather using cityInput as parameter
+// creates function to get city weather using cityInput as parameter
 function getWeather(cityInput) {
   //takes in city above and returns current weather using api key
   var currentWeatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityInput}&appid=${api_key}`;
@@ -85,12 +84,7 @@ function getWeather(cityInput) {
         alert("city not found");
         return;
       }
-      // logs the name from weather
-      // console.log(weather.name)
-      //creates varibale for name of city
-      var name = weather.name;
-      //acess lat n long  from returned data, current api endpoint
-      //creat variable for long and lat info to use for onecal url
+      //retrieves lat and lon data from weather data
       const lat = weather.coord.lat;
       const lon = weather.coord.lon;
       //sends api with our lat and long var for our city
@@ -99,49 +93,50 @@ function getWeather(cityInput) {
         //converts data from onecall to .json
         .then((data) => data.json())
         .then(function (onecallURL) {
-          var todayCard = document.createElement("div");
-          todayCard.classList.add("current-weather");
-          //todayCard.innerHTML= name
-          //currentWeather.append(todayCard)
-
-          //   oneCallData has all the information that we need for 5 day
-          //console.log(onecallURL);
-          // logs url info,looks into "current" array for todays forcast
-          //console.log(onecallURL.current)
-          //create variable for humidity including string and humidity info in current from onecall url
-          var humidity = "Humidity: " + onecallURL.current.humidity + "%";
-          //creates variable for temp including string and temp info in "current" array from onecallurl
-          var temp = "Temp: " + onecallURL.current.temp + "Degrees";
-          //console.log(temp)
-          //creates variable for UVI including string and UVI info in "current" array from onecallurl
-          var uvIndex = "UV Index: " + onecallURL.current.uvi;
-          //creates variable for WindSPeed including string and WS info in "current" array from onecallurl
-          var windSpeed =
-            "Wind Speed: " + onecallURL.current.wind_speed + "MPH";
-          //creates variable for WC including string and WC info in "current" array from onecallurl
-          var weatherCond =
-            "Weather Conditions: " + onecallURL.current.weather[0].main;
+          console.log(onecallURL);
+          console.log(onecallURL.current)
           // creates variable for element with class current -weather
           var currentWeather = document.querySelector(".current-weather");
-
-          //clear innerhtml of currentweatheerInfo hopefully
-          //currentWeatherInfo= "";
-          // creates array of weather info variables
-          const currentWeatherInfo = [
-            name,
-            humidity,
-            temp,
-            uvIndex,
-            windSpeed,
-            weatherCond,
-          ];
           currentWeather.innerHTML = "";
-          //for each element in array,append to curretn weather
-          for (let i = 0; i < currentWeatherInfo.length; i++) {
-            var ptag = document.createElement("p");
-            ptag.textContent = currentWeatherInfo[i];
-            currentWeather.append(ptag);
-          }
+          var d = new Date();
+          var date = d.getUTCDate();
+          var month = d.getUTCMonth() + 1;
+          var year = d.getUTCFullYear();
+          //creates variable for name of city
+          var name = document.createElement("h3");
+          name.textContent =
+            weather.name + " (" + date + "/" + month + "/" + year + ")";
+          currentWeather.append(name);
+          var imgEl = document.createElement("img")
+          imgEl.setAttribute("src","")
+          //creates variable for temp including string and temp info in "current" array from onecallurl
+          var temp = document.createElement("p");
+          temp.textContent =
+            "Temperature: " + onecallURL.current.temp.toFixed(1) + " ℉";
+          currentWeather.append(temp);
+          //create variable for humidity including string and humidity info in current from onecall url
+          var humidity = document.createElement("p");
+          humidity.textContent =
+            "Humidity: " + onecallURL.current.humidity + "%";
+          currentWeather.append(humidity);
+          //creates variable for WindSPeed including string and WS info in "current" array from onecallurl
+          var windSpeed = document.createElement("p");
+          windSpeed.textContent =
+            "Wind Speed: " + onecallURL.current.wind_speed.toFixed(1) + " MPH";
+          currentWeather.append(windSpeed);
+          //creates variable for UVI including string and UVI info in "current" array from onecallurl
+          var uvIndex = document.createElement("p");
+          uvIndex.textContent = "UV Index: " + onecallURL.current.uvi;
+          if (onecallURL.current.uvi > 6) uvIndex.className = "text-danger";
+          else if (onecallURL.current.uvi > 3)
+            uvIndex.className = "text-warning";
+          else uvIndex.className = "text-primary";
+          currentWeather.append(uvIndex);
+          //creates variable for WC including string and WC info in "current" array from onecallurl
+          var weatherCond = document.createElement("p");
+          weatherCond.textContent =
+            "Weather Conditions: " + onecallURL.current.weather[0].main;
+          currentWeather.append(weatherCond);
         });
     });
 }
@@ -152,13 +147,12 @@ function getFiveDay(cityInput) {
     //converts data from fiveDayUrl to .json
     .then((data) => data.json())
     .then(function (fiveDayUrl) {
-      console.log(fiveDayUrl);
+      // console.log(fiveDayUrl);
       forecastContainer.innerHTML = "";
 
       for (var i = 4; i < fiveDayUrl.list.length; i = i + 8) {
         var forecastCard = document.createElement("div");
         //forecastCard.classList.add("forecast");
-        
 
         // create  element for var, sets innertext of var to data, append var to container
         let forecastDate = document.createElement("h3");
