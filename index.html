@@ -14,32 +14,28 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   </head>
   <body>
-    <div class="jumbotron">
+  <header class="jumbrotron text-center bg-dark text-white">
+      <h1>Weather Dashboard</h1>
+    </header>
+    <!-- <div class="jumbotron">
       <h1 class="text-center">Weather Dashboard</h1>
-    </div>
+    </div> -->
     <div class="row">
-      
       <form class="submit-form col-4">
         <div class="form-group">
-          <label for="InputCity">Search for a City</label>
-          <input
-            type="text"
-            class="form-control col-4"
-            id="input-city"
-          />
+          <label for="InputCity">Search for a City:</label>
+          <input type="text" class="form-control col-4" id="input-city" />
           <button type="submit" class="btn btn-primary col-4 submit-Btn">
             🔍
           </button>
         </div>
         <div class="search-history col-8"></div>
       </form>
-      <div class="current-weather col-8">
-      </div>
+      <div class="current-weather card col-8"></div>
     </div>
     <div class="forecast col-12 d-flex">
       <h2>5-Day Forecast :</h2>
     </div>
-    
 
     <script src="assests\script.js"></script>
   </body>

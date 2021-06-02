@@ -108,7 +108,8 @@ function getWeather(cityInput) {
             weather.name + " (" + date + "/" + month + "/" + year + ")";
           currentWeather.append(name);
           var imgEl = document.createElement("img")
-          imgEl.setAttribute("src","")
+          imgEl.setAttribute("src",`http://openweathermap.org/img/w/${onecallURL.current.weather[0].icon}.png`)
+          name.append(imgEl)
           //creates variable for temp including string and temp info in "current" array from onecallurl
           var temp = document.createElement("p");
           temp.textContent =
@@ -132,11 +133,6 @@ function getWeather(cityInput) {
             uvIndex.className = "text-warning";
           else uvIndex.className = "text-primary";
           currentWeather.append(uvIndex);
-          //creates variable for WC including string and WC info in "current" array from onecallurl
-          var weatherCond = document.createElement("p");
-          weatherCond.textContent =
-            "Weather Conditions: " + onecallURL.current.weather[0].main;
-          currentWeather.append(weatherCond);
         });
     });
 }
@@ -152,22 +148,14 @@ function getFiveDay(cityInput) {
 
       for (var i = 4; i < fiveDayUrl.list.length; i = i + 8) {
         var forecastCard = document.createElement("div");
+        forecastCard.className = ("card bg-primary text-white")
         //forecastCard.classList.add("forecast");
 
         // create  element for var, sets innertext of var to data, append var to container
         let forecastDate = document.createElement("h3");
         forecastDate.innerText =
-          "Date: " + fiveDayUrl.list[i].dt_txt.slice(0, 10);
+        fiveDayUrl.list[i].dt_txt.slice(0, 10);
         forecastCard.append(forecastDate);
-
-        let forecastHumidity = document.createElement("p");
-        forecastHumidity.innerText =
-          "Humidity: " + fiveDayUrl.list[i].main.humidity + "%";
-        forecastCard.append(forecastHumidity);
-
-        let forecastTemp = document.createElement("p");
-        forecastTemp.innerText = fiveDayUrl.list[i].main.temp + " Degrees";
-        forecastCard.append(forecastTemp);
 
         let forecastIcon = document.createElement("img");
         forecastIcon.setAttribute(
@@ -176,6 +164,16 @@ function getFiveDay(cityInput) {
         );
         forecastCard.append(forecastIcon);
         forecastContainer.append(forecastCard);
+
+        
+        let forecastTemp = document.createElement("p");
+        forecastTemp.innerText = "Temp: " + fiveDayUrl.list[i].main.temp + " ℉";
+        forecastCard.append(forecastTemp);
+
+        let forecastHumidity = document.createElement("p");
+        forecastHumidity.innerText =
+          "Humidity: " + fiveDayUrl.list[i].main.humidity + "%";
+        forecastCard.append(forecastHumidity);
       }
 
       // console.log(fiveDayUrl.list[0].dt_txt)// date
