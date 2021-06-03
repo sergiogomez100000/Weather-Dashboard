@@ -6,6 +6,7 @@ var searchHistory = localStorage.getItem("Cities");
 // creates variable for forecast container
 const forecastContainer = document.querySelector("#forecast");
 // console.log(forecastContainer);
+const weather = document.querySelector("#weather")
 // if search history has a string then it would be tru
 if (searchHistory) {
   //search history turns strin into array
@@ -31,6 +32,7 @@ function createHistoryBtns() {
     // hav text content of cityBtn be the cityInput
     cityBtn.textContent = cityInput;
     cityBtn.addEventListener("click",function(event){
+      weather.classList.remove("d-none")
       getWeather(event.target.textContent)
       getFiveDay(event.target.textContent)
     })
@@ -42,6 +44,7 @@ function createHistoryBtns() {
 function submitSearch(event) {
   //prevents page refresh
   event.preventDefault();
+  weather.classList.remove("d-none")
   //creates var for city input
   const cityInput = document.querySelector("#city-input").value;
   if(!cityInput){
@@ -52,6 +55,12 @@ function submitSearch(event) {
   if (searchHistory.includes(cityInput)) {
     return;
   }
+  // var statusCode = context.response.meta.statusCode;
+  // if(statusCode === 404){
+  //   return;
+  // }
+  
+
   //logs city submitted
   searchHistory.push(cityInput);
   //saves key value pair "city",searchhistory array turns into string with JSON.stringify to local storage
