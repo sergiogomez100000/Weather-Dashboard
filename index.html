@@ -13,28 +13,46 @@
     />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   </head>
+
   <body>
-  <header class="jumbotron text-center p-3 bg-secondary text-white">
+    <header class="jumbotron text-center p-4 bg-secondary text-white">
       <h1>Weather Dashboard</h1>
     </header>
-    <!-- <div class="jumbotron">
-      <h1 class="text-center">Weather Dashboard</h1>
-    </div> -->
-    <div class="row">
-      <form class="submit-form col-4">
-        <div class="form-group">
-          <label for="InputCity">Search for a City:</label>
-          <input type="text" class="form-control col-4" id="input-city" />
-          <button type="submit" class="btn btn-primary col-4 submit-Btn">
+    <div class="row container-fluid">
+
+      <div class=" col-3 bg-light">
+        <h4>Search for a City:</h4>
+        <div class="d-flex mb-2">
+        <input type="text" id="city-input">
+        <button type="submit" class="btn btn-primary" id="search-Btn">🔍</button>
+        </div>
+        <ul class="p-0" id="search-history"></ul>
+      </div>
+
+      <div class=" col-9">
+        <h3>Today:</h3>
+        <div class="card" id="current-weather"></div>
+
+        <h3>5-Day Forecast:</h3>
+        <div class="row justify-content-around" id="forecast">
+
+        </div>
+      </div>
+      <!-- <form class="submit-form col-3">
+        <h4>Search for a City:</h4>
+        <div class="form d-flex">
+          <input type="text" class="form-control" id="input-city" />
+          <button type="submit" class="btn btn-primary col-2 submit-Btn">
             🔍
           </button>
         </div>
-        <div class="search-history col-8"></div>
+        <div class="search-history col-4"></div>
       </form>
-      <div class="current-weather card col-8"></div>
-    </div>
-    <div class="forecast col-12 d-flex">
-      <h2>5-Day Forecast :</h2>
+      <div class="col-9">
+        <div class="current-weather card p-4"></div>
+        <h3>5-Day Forecast:</h3>
+        <div class="row d-flex" id="forecast"></div>
+      </div> -->
     </div>
 
     <script src="assests\script.js"></script>
