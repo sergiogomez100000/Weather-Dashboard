@@ -15,7 +15,7 @@
   </head>
 
   <body>
-    <header class="jumbotron text-center  p-4 bg-primary b-gradient text-white">
+    <header class="jumbotron text-center  p-1 bg-secondary b-gradient text-white">
       <div class="d-flex justify-content-around">
         <img src="https://openweathermap.org/img/wn/10n@2x.png">
         <img src="https://openweathermap.org/img/wn/04n@2x.png">
@@ -27,45 +27,26 @@
         <img src="https://openweathermap.org/img/wn/02d@2x.png">
         <img src="https://openweathermap.org/img/wn/10d@2x.png">
       </div>
-      <!-- <img src="https://openweathermap.org/img/wn/03n@2x.png">
-      <img src="https://openweathermap.org/img/wn/01d@2x.png">
-      <h1>Weather Dashboard</h1> -->
     </header>
     <div class="row container-fluid">
-
+      <!-- Search and history container -->
       <div class="col-3 bg-light">
         <h4>Search for a City:</h4>
         <div class="d-flex mb-2">
         <input type="text" id="city-input">
-        <button type="submit" class="btn btn-primary" id="search-Btn">🔍</button>
+        <button class="btn btn-primary" id="search-Btn">🔍</button>
+        <button  class="btn btn-danger col-2" id="delete-Btn">🗑️</button>
         </div>
         <ul class="p-0" id="search-history"></ul>
       </div>
-
+      <!-- Weather container -->
       <div class="d-none col-9" id="weather">
-        <h3>Today:</h3>
+        <h3>Today's Forecast:</h3>
         <div class="card" id="current-weather"></div>
-
         <h3>5-Day Forecast:</h3>
         <div class="row justify-content-around" id="forecast">
-
         </div>
       </div>
-      <!-- <form class="submit-form col-3">
-        <h4>Search for a City:</h4>
-        <div class="form d-flex">
-          <input type="text" class="form-control" id="input-city" />
-          <button type="submit" class="btn btn-primary col-2 submit-Btn">
-            🔍
-          </button>
-        </div>
-        <div class="search-history col-4"></div>
-      </form>
-      <div class="col-9">
-        <div class="current-weather card p-4"></div>
-        <h3>5-Day Forecast:</h3>
-        <div class="row d-flex" id="forecast"></div>
-      </div> -->
     </div>
 
     <script src="assests\script.js"></script>
