@@ -10,9 +10,6 @@ const forecastContainer = document.querySelector("#forecast");
 const weathercontainer = document.querySelector("#weather")
 // creates variable for search history container
 var historycontainer = document.querySelector("#search-history");
-//creates variable for delete button
-var deleteBtn = document.querySelector("#delete-Btn");
-
 
 
 // if search history has a string then it would be true
@@ -38,6 +35,11 @@ function createHistoryBtns() {
     //create variable to create button, add classes
     var cityBtn = document.createElement("li");
     cityBtn.className = "list-group-item text-center"
+    //create variable to create delete button, add class
+    var deleteBtn = document.createElement("span");
+    deleteBtn.className = "btn btn-danger"
+    deleteBtn.textContent = "🗑️"
+    cityBtn.appendChild(deleteBtn)
     //cityBtn text is set to cityInput
     cityBtn.textContent = cityInput;
     //event listener on cityBtns to invoke API functions
@@ -50,15 +52,13 @@ function createHistoryBtns() {
   });
 }
 
- function deleteHistory(){
-   searchHistory = [];
-    createHistoryBtns();
- }
+//  function deleteHistory(){
+  //  searchHistory = [];
+    // createHistoryBtns();
+//  }
 
 //create function for when search button clicked
-function submitSearch(event) {
-  //prevents page refresh
-  event.preventDefault();
+function submitSearch() {
   //creates var for city input
   const cityInput = document.querySelector("#city-input").value;
   // if no city input then alert
@@ -85,7 +85,7 @@ function submitSearch(event) {
 //creates listener for when submitBtn clicked, executes function
 searchBtn.addEventListener("click", submitSearch);
 //creates listener for when deleteBtn clicked, executes function
-deleteBtn.addEventListener("click", deleteHistory)
+// deleteBtn.addEventListener("click", deleteHistory)
 
 // creates function to get city weather using cityInput as parameter
 function getWeather(cityInput) {
@@ -103,7 +103,8 @@ function getWeather(cityInput) {
         //gives alert if error 404 code
         alert("City not found! Try again!");
         //removes last item in searchHistory array
-        searchHistory.pop();
+        searchHistory.pop()
+        createHistoryBtns();
         return;
       }
       //remove display-none class from weather container
@@ -130,6 +131,7 @@ function getWeather(cityInput) {
           var year = d.getUTCFullYear();
           //creates variable for name of city and date, appends to container
           var name = document.createElement("h3");
+          name.className= "text-center"
           name.textContent =
             weather.name + " (" + month + "/" + date + "/" + year + ")";
           currentWeather.append(name);
@@ -159,12 +161,16 @@ function getWeather(cityInput) {
 
           //creates variable for UVI, appends to container
           var uvIndex = document.createElement("p");
-          uvIndex.textContent = "UV Index: " + onecallURL.current.uvi;
+          uvIndex.textContent = "UV Index: ";
+          //creates  variable for UVI Value target for class, appends to uviIndex
+          var uvIndexVal= document.createElement("span")
+          uvIndexVal.textContent= onecallURL.current.uvi;
           // if else statement to modify text depending on UVI value
-          if (onecallURL.current.uvi > 6) uvIndex.className = "text-danger";
+          if (onecallURL.current.uvi > 6) uvIndexVal.className = "text-white bg-danger";
           else if (onecallURL.current.uvi > 3)
-            uvIndex.className = "text-warning";
-          else uvIndex.className = "text-primary";
+            uvIndexVal.className = "text-white bg-warning";
+          else uvIndexVAl.className = "text-white bg-primary";
+          uvIndex.appendChild(uvIndexVal)
           currentWeather.append(uvIndex);
         });
     });
