@@ -33,29 +33,33 @@ function createHistoryBtns() {
   //for each cityInput run function with cityInput parameter
   searchHistory.forEach(function (cityInput) {
     //create variable to create button, add classes
-    var cityBtn = document.createElement("li");
-    cityBtn.className = "list-group-item text-center"
-    //create variable to create delete button, add class
-    var deleteBtn = document.createElement("span");
-    deleteBtn.className = "btn btn-danger"
-    deleteBtn.textContent = "🗑️"
-    cityBtn.appendChild(deleteBtn)
+    var cityItem = document.createElement("li");
+    cityItem.className = "list-group-item text-center"
     //cityBtn text is set to cityInput
-    cityBtn.textContent = cityInput;
+    var cityName = document.createElement("span");
+    cityName.textContent = cityInput;
+    // cityBtn.textContent = cityInput;
     //event listener on cityBtns to invoke API functions
-    cityBtn.addEventListener("click",function(event){
-      getWeather(event.target.textContent)
-      getFiveDay(event.target.textContent)
+    cityItem.addEventListener("click",function(){
+      getWeather(cityInput)
+      getFiveDay(cityInput)
     })
+    var deleteBtn= document.createElement("button");
+    deleteBtn.className = "btn-danger rounded float-right"
+    deleteBtn.textContent = "🗑️";
+
+    deleteBtn.addEventListener("click", function(){
+      console.log("delete button clicked!")
+    })
+
+
+    cityItem.append(cityName)
+    cityItem.append(deleteBtn)
     //appending cityBtn to historycontainer
-    historycontainer.append(cityBtn);
+    historycontainer.append(cityItem);
   });
 }
 
-//  function deleteHistory(){
-  //  searchHistory = [];
-    // createHistoryBtns();
-//  }
 
 //create function for when search button clicked
 function submitSearch() {
@@ -84,8 +88,6 @@ function submitSearch() {
 
 //creates listener for when submitBtn clicked, executes function
 searchBtn.addEventListener("click", submitSearch);
-//creates listener for when deleteBtn clicked, executes function
-// deleteBtn.addEventListener("click", deleteHistory)
 
 // creates function to get city weather using cityInput as parameter
 function getWeather(cityInput) {
