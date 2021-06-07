@@ -52,7 +52,7 @@ function createHistoryBtns() {
       console.log("delete button clicked!")
       item = event.currentTarget.parentElement.textContent.slice(0,-3)
       index = searchHistory.indexOf(item)
-      searchHistory.splice(index)
+      searchHistory.splice(index,1)
       localStorage.setItem("Cities", JSON.stringify(searchHistory))
     })
 
