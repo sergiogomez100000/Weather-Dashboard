@@ -82,8 +82,6 @@ function submitSearch() {
   searchHistory.push(cityInput);
   //saves key value pair, "Cities" and stringified search History array to local storage
   localStorage.setItem("Cities", JSON.stringify(searchHistory));
-  //invokes function
-  createHistoryBtns();
 }
 
 //creates listener for when submitBtn clicked, executes function
@@ -110,6 +108,7 @@ function getWeather(cityInput) {
         createHistoryBtns();
         return;
       }
+      createHistoryBtns();
       //remove display-none class from weather container
       weathercontainer.classList.remove("d-none")
       //retrieves lat and lon data from weather data
