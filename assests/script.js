@@ -48,13 +48,17 @@ function createHistoryBtns() {
     deleteBtn.className = "btn-danger rounded float-right"
     deleteBtn.textContent = "🗑️";
 
-    deleteBtn.addEventListener("click", function(){
+    deleteBtn.addEventListener("click", function(event){
       console.log("delete button clicked!")
+      item = event.currentTarget.parentElement.textContent.slice(0,-3)
+      index = searchHistory.indexOf(item)
+      searchHistory.splice(index)
+      localStorage.setItem("Cities", JSON.stringify(searchHistory))
     })
 
 
     cityItem.append(cityName)
-    cityItem.append(deleteBtn)
+    cityName.append(deleteBtn)
     //appending cityBtn to historycontainer
     historycontainer.append(cityItem);
   });
