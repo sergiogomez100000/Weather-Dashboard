@@ -49,7 +49,6 @@ function createHistoryBtns() {
     deleteBtn.textContent = "🗑️";
 
     deleteBtn.addEventListener("click", function(event){
-      console.log("delete button clicked!")
       item = event.currentTarget.parentElement.textContent.slice(0,-3)
       index = searchHistory.indexOf(item)
       searchHistory.splice(index,1)
@@ -125,7 +124,7 @@ function getWeather(cityInput) {
         //converts data from onecall to .json
         .then((data) => data.json())
         .then(function (onecallURL) {
-          // console.log(onecallURL);
+          console.log(onecallURL);
           // console.log(onecallURL.current)
           // creates variable for element with id current-weather
           var currentWeather = document.querySelector("#current-weather");
