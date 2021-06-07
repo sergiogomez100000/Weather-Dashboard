@@ -105,7 +105,8 @@ function getWeather(cityInput) {
         //gives alert if error 404 code
         alert("City not found! Try again!");
         //removes last item in searchHistory array
-        searchHistory.pop()
+        searchHistory.pop();
+        localStorage.setItem("Cities", JSON.stringify(searchHistory))
         createHistoryBtns();
         return;
       }
@@ -171,7 +172,7 @@ function getWeather(cityInput) {
           if (onecallURL.current.uvi > 6) uvIndexVal.className = "text-white bg-danger";
           else if (onecallURL.current.uvi > 3)
             uvIndexVal.className = "text-white bg-warning";
-          else uvIndexVAl.className = "text-white bg-primary";
+          else uvIndexVal.className = "text-white bg-primary";
           uvIndex.appendChild(uvIndexVal)
           currentWeather.append(uvIndex);
         });
