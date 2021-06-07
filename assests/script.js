@@ -86,6 +86,7 @@ function submitSearch() {
   searchHistory.push(cityInput);
   //saves key value pair, "Cities" and stringified search History array to local storage
   localStorage.setItem("Cities", JSON.stringify(searchHistory));
+  document.querySelector("#city-input").value = ""
 }
 
 //creates listener for when submitBtn clicked, executes function
