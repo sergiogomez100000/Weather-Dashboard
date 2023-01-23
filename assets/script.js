@@ -189,7 +189,7 @@ function getFiveDay(cityInput) {
     .then((data) => data.json())
     // turns data to fiveDayURL
     .then(function (fiveDayUrl) {
-      // console.log(fiveDayUrl);
+       console.log(fiveDayUrl);
       //if error status
       if(fiveDayUrl.cod === "404"){
         return
@@ -205,9 +205,10 @@ function getFiveDay(cityInput) {
         // creates variable for date, appends to container
         // whole date(fiveDayUrl.list[i].dt_txt.slice(0, 10))
         let forecastDate = document.createElement("h3");
-        var date =fiveDayUrl.list[i].dt_txt.slice(9, 10);
+        var date =fiveDayUrl.list[i].dt_txt.slice(8, 10);
         var month = fiveDayUrl.list[i].dt_txt.slice(6, 7);
         var year = fiveDayUrl.list[i].dt_txt.slice(0,4);
+        console.log(fiveDayUrl.list[i].dt_txt)
         forecastDate.innerText = month + "/" + date + "/" + year
         forecastCard.append(forecastDate);
 
