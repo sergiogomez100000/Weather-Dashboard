@@ -153,6 +153,11 @@ function getWeather(cityInput) {
             "Temperature: " + onecallURL.current.temp.toFixed(1) + " ℉";
           currentWeather.append(temp);
 
+          //creates var for feels-like temp, appends to container
+          var feelsLike = document.createElement("p");
+          feelsLike.textContent = "Feels Like: " + onecallURL.current.feels_like.toFixed(1) + "℉";
+          currentWeather.append(feelsLike);
+
           //create variable for humidity, appends to container
           var humidity = document.createElement("p");
           humidity.textContent =
@@ -178,6 +183,8 @@ function getWeather(cityInput) {
           else uvIndexVal.className = "text-white bg-primary";
           uvIndex.appendChild(uvIndexVal)
           currentWeather.append(uvIndex);
+
+          
         });
     });
 }
@@ -208,7 +215,6 @@ function getFiveDay(cityInput) {
         var date =fiveDayUrl.list[i].dt_txt.slice(8, 10);
         var month = fiveDayUrl.list[i].dt_txt.slice(6, 7);
         var year = fiveDayUrl.list[i].dt_txt.slice(0,4);
-        console.log(fiveDayUrl.list[i].dt_txt)
         forecastDate.innerText = month + "/" + date + "/" + year
         forecastCard.append(forecastDate);
 
